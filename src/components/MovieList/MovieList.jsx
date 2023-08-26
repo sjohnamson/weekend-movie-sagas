@@ -12,9 +12,9 @@ function MovieList() {
         dispatch({ type: 'FETCH_MOVIES' });
     }, []);
 
-    const getDetails = (movie) => {
-        dispatch({ type: 'GET_DETAILS', payload: movie })
-    }
+    // const getDetails = (movie) => {
+    //     dispatch({ type: 'GET_DETAILS', payload: movie })
+    // }
 
     return (
         <main>
@@ -24,7 +24,7 @@ function MovieList() {
                     return (
 
                         <div key={movie.id} >
-                            <Link to='/details' onClick={() => getDetails(movie)}>
+                            <Link to={`/details/${movie.id}`}>
                                 <h3>{movie.title}</h3>
                                 <img src={movie.poster} alt={movie.title} />
                             </Link>

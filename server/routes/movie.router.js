@@ -16,6 +16,29 @@ router.get('/', (req, res) => {
 
 });
 
+// GET to add genres to one movie to display on the details page
+router.get('/:id', (req, res) => {
+const id = req.params.id;
+
+  const query = `SELECT genres.name FROM genres
+  JOIN movies_genres 
+  ON genres.id = movies_genres.genre_id
+  JOIN movies
+  ON movies_genres.movie_id = movies.id
+  WHERE movies.id=$1
+  ;`;
+  pool.query(query, [id])
+    .then( result => {
+      console.log('result in details get', result.rows)
+      res.send(result.rows);
+    })
+    .catch(err => {
+      console.log('ERROR: Get all movies', err);
+      res.sendStatus(500)
+    })
+
+});
+
 router.post('/', (req, res) => {
   console.log(req.body);
   // RETURNING "id" will give us back the id of the created movie

@@ -20,7 +20,10 @@ function* rootSaga() {
 function* getDetails(action) {
     const movieId = action.payload.id
     try {
-        const movieGenres = yield axios.get('/api/movie');
+        const movieGenres = yield axios.get(`/api/movie/${movieId}`);
+        const genres = movieGenres.data;
+        console.log('getting movie with genres', {...action.payload, genres});
+        yield put({ type: 'ADD_GENRES', payload: {...action.payload, genres}})
     } catch {
 
     }
@@ -44,14 +47,13 @@ const sagaMiddleware = createSagaMiddleware();
 
 // Used to add the genres to the movie info to display on the details page
 const movieDetails = (state = {}, action) => {
+    
 switch (action.type) {
-    case 'ADD_GENRE':
+    case 'ADD_GENRES':
+        console.log('in moviedetails', action.payload)
         return state
-        break;
-
     default:
         return state
-        break;
 }
 }
 // Used to store movies returned from the server
@@ -79,6 +81,7 @@ const storeInstance = createStore(
     combineReducers({
         movies,
         genres,
+        movieDetails
     }),
     // Add sagaMiddleware to our store
     applyMiddleware(sagaMiddleware, logger),
