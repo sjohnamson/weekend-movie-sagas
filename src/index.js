@@ -14,6 +14,16 @@ import axios from 'axios';
 // Create the rootSaga generator function
 function* rootSaga() {
     yield takeEvery('FETCH_MOVIES', fetchAllMovies);
+    yield takeEvery('GET_DETAILS', getDetails)
+}
+
+function* getDetails(action) {
+    const movieId = action.payload.id
+    try {
+        const movieGenres = yield axios.get('/api/movie');
+    } catch {
+
+    }
 }
 
 function* fetchAllMovies() {
@@ -32,6 +42,18 @@ function* fetchAllMovies() {
 // Create sagaMiddleware
 const sagaMiddleware = createSagaMiddleware();
 
+// Used to add the genres to the movie info to display on the details page
+const movieDetails = (state = {}, action) => {
+switch (action.type) {
+    case 'ADD_GENRE':
+        return state
+        break;
+
+    default:
+        return state
+        break;
+}
+}
 // Used to store movies returned from the server
 const movies = (state = [], action) => {
     switch (action.type) {
