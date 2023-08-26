@@ -18,12 +18,16 @@ function* rootSaga() {
 }
 
 function* getDetails(action) {
+    console.log('getDetails', action.payload)
     const movieId = action.payload.id
     try {
-        const movieGenres = yield axios.get(`/api/movie/${movieId}`);
+        const movie = yield axios.get(`/api/movie/${movieId}`)
+        const movieDet = movie.data
+        console.log('movie data:', movieDet)
+        const movieGenres = yield axios.get(`/api/movie/genres/${movieId}`);
         const genres = movieGenres.data;
-        console.log('getting movie with genres', {...action.payload, genres});
-        yield put({ type: 'ADD_GENRES', payload: {...action.payload, genres}})
+        console.log('getting movie with genres', {...movieDet[0], genres});
+        yield put({ type: 'ADD_GENRES', payload: {...movieDet[0], genres}});
     } catch {
 
     }
