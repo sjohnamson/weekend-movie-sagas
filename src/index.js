@@ -21,13 +21,14 @@ function* getDetails(action) {
     console.log('getDetails', action.payload)
     const movieId = action.payload.id
     try {
+        // Get the details for the clicked on movie
         const movie = yield axios.get(`/api/movie/${movieId}`)
         const movieDet = movie.data
-        console.log('movie data:', movieDet)
+        // Get the genres for the clicked on movie
         const movieGenres = yield axios.get(`/api/movie/genres/${movieId}`);
         const genres = movieGenres.data;
-        console.log('getting movie with genres', {...movieDet[0], genres});
-        yield put({ type: 'ADD_GENRES', payload: {...movieDet[0], genres}});
+        // Put object with movie details and genres to the reducer
+        yield put({ type: 'ADD_GENRES', payload: { ...movieDet[0], genres } });
     } catch {
         console.log('get details error');
     }
@@ -43,7 +44,7 @@ function* fetchAllMovies() {
     } catch {
         console.log('get all error');
     }
-        
+
 }
 
 // Create sagaMiddleware
@@ -51,14 +52,13 @@ const sagaMiddleware = createSagaMiddleware();
 
 // Used to add the genres to the movie info to display on the details page
 const movieDetails = (state = {}, action) => {
-    
-switch (action.type) {
-    case 'ADD_GENRES':
-        console.log('in moviedetails', action.payload)
-        return action.payload
-    default:
-        return state
-}
+    switch (action.type) {
+        case 'ADD_GENRES':
+            console.log('in moviedetails', action.payload)
+            return action.payload
+        default:
+            return state
+    }
 }
 // Used to store movies returned from the server
 const movies = (state = [], action) => {

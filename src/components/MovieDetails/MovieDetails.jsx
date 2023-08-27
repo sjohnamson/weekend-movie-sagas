@@ -14,9 +14,6 @@ export default function MovieDetails() {
         console.log('movieDetails in effect:', movieDetails)
     }, []);
 
-
-
-
     const getDetails = (movieId) => {
         dispatch({ type: 'GET_DETAILS', payload: movieId })
     }
@@ -32,7 +29,8 @@ export default function MovieDetails() {
             <p>Genres: {movieDetails.genres?.map(genre => {
                 return (
                     <div >{genre.name}</div>
-                )}
+                )
+            }
             )}
             </p>
         </>

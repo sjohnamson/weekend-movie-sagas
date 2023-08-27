@@ -37,7 +37,3 @@ function MovieList() {
 }
 
 export default MovieList;
-
-
-// to={`/details/${movie.id}`}
-// to='/details' 
