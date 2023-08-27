@@ -7,26 +7,34 @@ export default function MovieDetails() {
     const movieDetails = useSelector(store => store.movieDetails);
     const dispatch = useDispatch();
 
-    console.log('movieId from param', 0)
+    console.log('movieId from param', movieId)
 
-
-    // useEffect(() => {
-    //     getDetails(movieId)
-    // }, []);
+    useEffect(() => {
+        getDetails(movieId)
+        console.log('movieDetails in effect:', movieDetails)
+    }, []);
 
 
 
 
     const getDetails = (movieId) => {
         dispatch({ type: 'GET_DETAILS', payload: movieId })
-       
     }
 
-console.log('movie details in component:', movieDetails)
+    console.log('movie details in component:', movieDetails)
 
     return (
         <>
-            <h1>{movieDetails.id}</h1>
+
+            <h3>{movieDetails.title}</h3>
+            <img src={movieDetails.poster} alt={movieDetails.title} />
+            <p>Description: {movieDetails.description}</p>
+            <p>Genres: {movieDetails.genres?.map(genre => {
+                return (
+                    <div >{genre.name}</div>
+                )}
+            )}
+            </p>
         </>
     )
 }

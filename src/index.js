@@ -29,7 +29,7 @@ function* getDetails(action) {
         console.log('getting movie with genres', {...movieDet[0], genres});
         yield put({ type: 'ADD_GENRES', payload: {...movieDet[0], genres}});
     } catch {
-
+        console.log('get details error');
     }
 }
 
@@ -55,7 +55,7 @@ const movieDetails = (state = {}, action) => {
 switch (action.type) {
     case 'ADD_GENRES':
         console.log('in moviedetails', action.payload)
-        return state
+        return action.payload
     default:
         return state
 }
