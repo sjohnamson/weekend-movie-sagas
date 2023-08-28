@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom';
 
 export default function MovieDetails() {
     const movieId = useParams();
-    const movieDetails = useSelector(store => store.movieDetails);
     const dispatch = useDispatch();
+    const history = useHistory();
 
-    console.log('movieId from param', movieId)
+    const movieDetails = useSelector(store => store.movieDetails);
+
+    console.log('movieId from param', movieId);
 
     useEffect(() => {
         getDetails(movieId)
@@ -18,7 +20,9 @@ export default function MovieDetails() {
         dispatch({ type: 'GET_DETAILS', payload: movieId })
     }
 
-    console.log('movie details in component:', movieDetails)
+    const handleBack = () => {
+        history.push('/')
+    }
 
     return (
         <>
@@ -33,6 +37,7 @@ export default function MovieDetails() {
             }
             )}
             </p>
+            <button onClick={handleBack}>Back</button>
         </>
     )
 }
